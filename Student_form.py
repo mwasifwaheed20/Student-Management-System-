@@ -1,3 +1,7 @@
+from colorama import Fore, Style, init
+
+init(autoreset=True)
+
 class form:
     def __init__(self,fullname,fathername,age,qualification,email,phone_number,gender):
         self.fullname=fullname
@@ -10,60 +14,65 @@ class form:
 
 students = []
 def add_new_student():
-    fn=input("enter the full name :")
-    fathername=input("enter your father name :")
-    age=int(input("enter your age :"))
-    qf=input("what is your qualification:")
+    fn=input(f"{Fore.YELLOW}enter the full name :{Style.RESET_ALL}")
+    fathername=input(f"{Fore.YELLOW}enter your father name :{Style.RESET_ALL}")
+    age=int(input(f"{Fore.YELLOW}enter your age :{Style.RESET_ALL}"))
+    qf=input(f"{Fore.YELLOW}what is your qualification:{Style.RESET_ALL}")
     while True:
         try:
-            email=input("enter your email :")
+            email=input(f"{Fore.YELLOW}enter your email :{Style.RESET_ALL}")
             if "@" in email and "gmail.com" in email:
                 break
         except:
-            print("invalid email enter again ")
+            print(f"{Fore.RED}invalid email enter again {Style.RESET_ALL}")
             continue
     while True:
         try:
-            phone_number=input("enter your phone number :")
+            phone_number=input(f"{Fore.YELLOW}enter your phone number without start zero :{Style.RESET_ALL}")
             if phone_number.isdigit() and len(phone_number)==10: #  phone number should be 10 digits because the int strips the leading zeros 
                 break
         except ValueError:
-            print("invalid input. Please enter a valid phone number.")
+            print(f"{Fore.RED}invalid input. Please enter a valid phone number.{Style.RESET_ALL}")
             continue
-    gender=input("gender:")
+    gender=input(f"{Fore.YELLOW}gender:{Style.RESET_ALL}")
     student=form(fn,fathername,age,qf,email,phone_number,gender)
     students.append(student)
-    print("Student added successfully!")
+    print(f"{Fore.GREEN}{Style.BRIGHT}Student added successfully!{Style.RESET_ALL}")
 
 def display_students():
     if not students:
-        print("No students to display.")
+        print(f"{Fore.RED}No students to display.{Style.RESET_ALL}")
         return
+    print(f"{Fore.CYAN}{Style.BRIGHT}======== STUDENT LIST ========{Style.RESET_ALL}")
     for student in students:
-        print(f"Name: {student.fullname}, Father: {student.fathername}, Age: {student.age}, Qualification: {student.qualification}, Email: {student.email}, Phone: {student.phone_number}, Gender: {student.gender}")
+        print(f"{Fore.CYAN}Name: {student.fullname}, Father: {student.fathername}, Age: {student.age}, Qualification: {student.qualification}, Email: {student.email}, Phone: {student.phone_number}, Gender: {student.gender}{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}{Style.BRIGHT}=============================={Style.RESET_ALL}")
 
 def search_student():
-    name = input("Enter the full name to search: ")
+    name = input(f"{Fore.YELLOW}Enter the full name to search: {Style.RESET_ALL}")
+    found = False
     for student in students:
         if student.fullname.lower() == name.lower():
-            print(f"Name: {student.fullname}, Father: {student.fathername}, Age: {student.age}, Qualification: {student.qualification}, Email: {student.email}, Phone: {student.phone_number}, Gender: {student.gender}")
-            return
-    print("Student not found.")
+            print(f"{Fore.GREEN}{student.fullname} found!{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}Name: {student.fullname}, Father: {student.fathername}, Age: {student.age}, Qualification: {student.qualification}, Email: {student.email}, Phone: {student.phone_number}, Gender: {student.gender}{Style.RESET_ALL}")
+            found = True
+    if not found:
+        print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
 
 def update_student():
-    name = input("Enter the full name to update: ")
+    name = input(f"{Fore.YELLOW}Enter the full name to update: {Style.RESET_ALL}")
     for student in students:
         if student.fullname.lower() == name.lower():
-            print("Enter new details (leave blank to keep current):")
-            fn = input(f"Full name ({student.fullname}): ") or student.fullname
-            fathername = input(f"Father name ({student.fathername}): ") or student.fathername
-            age = input(f"Age ({student.age}): ")
+            print(f"{Fore.CYAN}{Style.BRIGHT}Enter new details (leave blank to keep current):{Style.RESET_ALL}")
+            fn = input(f"{Fore.YELLOW}Full name ({student.fullname}): {Style.RESET_ALL}") or student.fullname
+            fathername = input(f"{Fore.YELLOW}Father name ({student.fathername}): {Style.RESET_ALL}") or student.fathername
+            age = input(f"{Fore.YELLOW}Age ({student.age}): {Style.RESET_ALL}")
             age = int(age) if age else student.age
-            qf = input(f"Qualification ({student.qualification}): ") or student.qualification
-            email = input(f"Email ({student.email}): ") or student.email
-            phone_number = input(f"Phone ({student.phone_number}): ")
+            qf = input(f"{Fore.YELLOW}Qualification ({student.qualification}): {Style.RESET_ALL}") or student.qualification
+            email = input(f"{Fore.YELLOW}Email ({student.email}): {Style.RESET_ALL}") or student.email
+            phone_number = input(f"{Fore.YELLOW}Phone ({student.phone_number}): {Style.RESET_ALL}")
             phone_number = int(phone_number) if phone_number else student.phone_number
-            gender = input(f"Gender ({student.gender}): ") or student.gender
+            gender = input(f"{Fore.YELLOW}Gender ({student.gender}): {Style.RESET_ALL}") or student.gender
             student.fullname = fn
             student.fathername = fathername
             student.age = age
@@ -71,23 +80,23 @@ def update_student():
             student.email = email
             student.phone_number = phone_number
             student.gender = gender
-            print("Student updated successfully!")
+            print(f"{Fore.GREEN}{Style.BRIGHT}Student updated successfully!{Style.RESET_ALL}")
             return
-    print("Student not found.")
+    print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
 
 def delete_student():
-    name = input("Enter the full name to delete: ")
+    name = input(f"{Fore.YELLOW}Enter the full name to delete: {Style.RESET_ALL}")
     for i, student in enumerate(students):
         if student.fullname.lower() == name.lower():
             students.pop(i)
-            print("Student deleted successfully!")
+            print(f"{Fore.GREEN}{Style.BRIGHT}Student deleted successfully!{Style.RESET_ALL}")
             return
-    print("Student not found.")
+    print(f"{Fore.RED}Student not found.{Style.RESET_ALL}")
 
 while True:
-    print("\n====== MENU ======") 
-    print("1. Add Student\n2. Display\n3. Search Student\n4. Update Student\n5. Delete Student\n6. Exit")
-    selection=int(input("select one option:"))
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}\n====== MENU ======={Style.RESET_ALL}") 
+    print(f"{Fore.CYAN}1. Add Student\n2. Display\n3. Search Student\n4. Update Student\n5. Delete Student\n6. Exit{Style.RESET_ALL}")
+    selection=int(input(f"{Fore.YELLOW}select one option:{Style.RESET_ALL}"))
     if selection==1:
         add_new_student()
     elif selection==2:
@@ -99,6 +108,7 @@ while True:
     elif selection==5:
         delete_student()
     elif selection==6:
+        print(f"{Fore.GREEN}{Style.BRIGHT}Thank you! Goodbye!{Style.RESET_ALL}")
         break
     else:
-        print("Invalid selection. Please try again.")
+        print(f"{Fore.RED}{Style.BRIGHT}Invalid selection. Please try again.{Style.RESET_ALL}")
